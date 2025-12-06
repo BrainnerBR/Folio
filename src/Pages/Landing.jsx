@@ -1,3 +1,7 @@
+import ServicesSection from "../Components/ServicesSection";
+import PricingSection from "../Components/PricingSection";
+import Footer from "../Components/Footer";
+
 export default function Landing() {
   return (
     <div className="w-full">
@@ -34,6 +38,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+      <ServicesSection />
+      <PricingSection />
+      <Footer />
     </div>
   );
 }
