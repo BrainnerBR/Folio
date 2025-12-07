@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 export default function PricingSection() {
   const plans = [
     {
@@ -33,25 +35,55 @@ export default function PricingSection() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, 
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
-    <section className="w-full bg-bg py-28 px-6">
+    <section className="w-full bg-bg py-28 px-6 overflow-hidden">
       <div className="max-w-5xl mx-auto text-center mb-16">
-        <h2 className="text-5xl font-extrabold text-text mb-4 leading-tight">
-          Simple, Transparent Pricing
-        </h2>
-        <p className="text-lg text-text/70 max-w-2xl mx-auto">
-          Choose the plan that fits your workflow. Upgrade anytime. Cancel
-          whenever you want — no hidden fees.
-        </p>
+        <motion.div
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl font-extrabold text-text mb-4 leading-tight">
+            Simple, Transparent Pricing
+          </h2>
+          <p className="text-lg text-text/70 max-w-2xl mx-auto">
+            Choose the plan that fits your workflow. Upgrade anytime. Cancel
+            whenever you want — no hidden fees.
+          </p>
+        </motion.div>
       </div>
 
       {/* PRICING CARDS */}
-      <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+      <motion.div 
+        className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={containerVariants}
+      >
         {plans.map((plan, index) => (
-          <div
+          <motion.div
             key={index}
+            variants={cardVariants}
+            whileHover={{ y: -10, transition: { duration: 0.3 } }}
             className={`relative rounded-3xl bg-white shadow-lg border border-black/10 p-8
-    hover:shadow-2xl transition duration-300 flex flex-col h-full
+    hover:shadow-2xl transition-shadow duration-300 flex flex-col h-full
   `}
           >
             {/* Popular Badge */}
@@ -100,12 +132,18 @@ export default function PricingSection() {
             >
               {plan.button}
             </button>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* FOOTER TEXT BELOW */}
-      <div className="text-center mt-10 text-text/70 text-sm">
+      <motion.div 
+        className="text-center mt-10 text-text/70 text-sm"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.6, duration: 0.6 }}
+      >
         Need help choosing a plan?{" "}
         <a
           href="#"
@@ -113,7 +151,7 @@ export default function PricingSection() {
         >
           Contact us
         </a>
-      </div>
+      </motion.div>
     </section>
   );
 }

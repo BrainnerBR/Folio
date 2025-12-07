@@ -1,12 +1,28 @@
 import ServicesSection from "../Components/ServicesSection";
 import PricingSection from "../Components/PricingSection";
 import Footer from "../Components/Footer";
+import { motion } from "framer-motion";
 
 export default function Landing() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative w-full h-screen flex items-center justify-center text-center">
+      <section className="relative w-full h-screen flex items-center justify-center text-center overflow-hidden">
         {/* Background image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat brightness-50"
@@ -17,26 +33,48 @@ export default function Landing() {
         ></div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-3xl px-6">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg">
-            Create Beautiful Presentations in Minutes
-          </h1>
+        <motion.div
+           className="relative z-10 max-w-4xl px-6"
+           variants={staggerContainer}
+           initial="hidden"
+           animate="visible"
+        >
+          <motion.h1 
+            className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg leading-tight"
+            variants={fadeInUp}
+          >
+            Create Beautiful <br className="hidden md:block"/> Presentations in Minutes
+          </motion.h1>
 
-          <p className="text-white/90 mt-6 text-lg md:text-xl">
+          <motion.p 
+            className="text-white/90 mt-6 text-lg md:text-xl max-w-2xl mx-auto"
+            variants={fadeInUp}
+          >
             Folio transforms your ideas into professional slides using AI. Fast,
             customizable and stunning.
-          </p>
+          </motion.p>
 
-          <div className="mt-10 flex items-center justify-center gap-6">
-            <button className="cursor-pointer bg-primary hover:bg-primaryHover text-black px-6 py-3 rounded-xl text-lg transition duration-300 ease-in-out">
+          <motion.div 
+            className="mt-10 flex items-center justify-center gap-6"
+            variants={fadeInUp}
+          >
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer bg-primary hover:bg-primaryHover text-black px-8 py-4 rounded-xl text-lg font-semibold transition shadow-lg hover:shadow-primary/50"
+            >
               Get Started
-            </button>
+            </motion.button>
 
-            <button className="cursor-pointer bg-white/80 hover:bg-white text-gray-900 px-6 py-3 rounded-xl text-lg transition duration-300 ease-in-out backdrop-blur-sm">
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="cursor-pointer bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-xl text-lg font-semibold transition backdrop-blur-md"
+            >
               Watch Demo
-            </button>
-          </div>
-        </div>
+            </motion.button>
+          </motion.div>
+        </motion.div>
       </section>
       <ServicesSection />
       <PricingSection />
