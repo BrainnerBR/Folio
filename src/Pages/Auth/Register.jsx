@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { updateProfile } from "firebase/auth";
 import { auth } from "../../Services/firebase";
+import Footer from "../../Components/Footer";
 
 export default function Register() {
   const { register } = useAuth();
@@ -45,6 +46,7 @@ export default function Register() {
   };
 
   return (
+    <>
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-100px)] px-6">
       <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md border border-black/5">
         <h2 className="text-3xl font-bold text-center mb-6 text-text">
@@ -115,5 +117,7 @@ export default function Register() {
         </p>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }

@@ -59,6 +59,7 @@ export default function Landing() {
             variants={fadeInUp}
           >
             <motion.button 
+            to="/dashboard"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="cursor-pointer bg-primary hover:bg-primaryHover text-black px-8 py-4 rounded-xl text-lg font-semibold transition shadow-lg hover:shadow-primary/50"

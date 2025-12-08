@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "../../Components/Footer";
 
 export default function Login() {
   const { login } = useAuth();
@@ -27,6 +28,7 @@ export default function Login() {
   };
 
   return (
+    <>
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-100px)] px-6">
       <div className="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md border border-black/5">
         <h2 className="text-3xl font-bold text-center mb-6 text-text">
@@ -80,5 +82,8 @@ export default function Login() {
         </p>
       </div>
     </div>
+
+      <Footer />
+    </>
   );
 }

@@ -72,7 +72,7 @@ export default function Footer() {
 
       {/* Footer bottom text */}
       <div className="mt-10 border-t border-black/10 pt-4 text-black/50 text-sm flex items-center justify-center gap-2">
-        © 2024 Folio. All rights reserved | By BBR
+        © 2025 Folio. All rights reserved | By BBR
       </div>
     </footer>
   );
