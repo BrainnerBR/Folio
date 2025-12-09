@@ -36,8 +36,9 @@ export default function Dashboard() {
 
       const token = await auth.currentUser.getIdToken();
 
-      const response = await fetch("http://localhost:5000/api/ai/generate", {
+      const response = await fetch("http://localhost:5001/api/ai/generate", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

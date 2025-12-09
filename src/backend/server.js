@@ -1,104 +1,62 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Groq } from "groq-sdk";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Cargar el archivo .env desde la carpeta backend
-dotenv.config({ path: join(__dirname, ".env") });
+dotenv.config();
 
 const app = express();
-
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 
-if (!process.env.GEMINI_API_KEY) {
-  console.error("❌ Falta GEMINI_API_KEY en el .env");
-  process.exit(1);
-}
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel(
-  { model: "gemini-2.5-flash" },
-  { apiVersion: "v1" }
-);
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.post("/api/ai/generate", async (req, res) => {
   try {
     const { prompt } = req.body;
-
-    console.log("📩 /api/ai/generate body:", req.body);
-
-    if (!prompt) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Prompt is required" });
-    }
+    if (!prompt) return res.status(400).json({ success: false, error: "Prompt required" });
 
     const systemPrompt = `
-You are a professional presentation generator. 
-ALWAYS respond with a valid JSON object (and nothing else) containing:
-- "title": String
-- "description": String
-- "slides": Array of objects with "title" and "content"
-
-VERY IMPORTANT:
-- Do NOT include markdown formatting like \`\`\`json or \`\`\`.
-- Do NOT include any explanation, only the raw JSON.
+You generate presentations.
+Always output ONLY JSON with:
+{
+  "title": "",
+  "description": "",
+  "slides": [
+    { "title": "", "content": "" }
+  ]
+}
+No markdown, no commentary.
 `;
 
-    const result = await model.generateContent(
-      `${systemPrompt}\n\nUser Prompt: ${prompt}`
-    );
-
-    let text = result.response.text().trim();
-
-    console.log("🤖 Gemini Raw Response BEFORE CLEAN:\n", text);
-
-    // Limpiar posibles bloques de código markdown
-    text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
-
-    // Recortar solo desde el primer { hasta el último }
-    const firstBrace = text.indexOf("{");
-    const lastBrace = text.lastIndexOf("}");
-    if (firstBrace !== -1 && lastBrace !== -1) {
-      text = text.substring(firstBrace, lastBrace + 1);
-    }
-
-    console.log("🧽 Gemini Cleaned Response:\n", text);
-
-    let json;
-    try {
-      json = JSON.parse(text);
-    } catch (parseError) {
-      console.error("❌ JSON parse error:", parseError);
-      return res.status(500).json({
-        success: false,
-        error: "Error parsing AI response as JSON",
-        details: parseError.message,
-        raw: text,
-      });
-    }
-
-    return res.json({
-      success: true,
-      data: json,
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt }
+      ],
+      temperature: 0.3,
     });
-  } catch (error) {
-    console.error("🔥 AI Generation Error:", error);
-    return res.status(500).json({
+
+    let text = completion.choices[0].message.content.trim();
+    text = text.replace(/```json/gi, "").replace(/```/g, "");
+
+    const first = text.indexOf("{");
+    const last = text.lastIndexOf("}");
+    text = text.slice(first, last + 1);
+
+    const json = JSON.parse(text);
+
+    return res.json({ success: true, data: json });
+
+  } catch (err) {
+    console.error("🔥 GROQ ERROR:", err);
+    res.status(500).json({
       success: false,
       error: "Error generating presentation",
-      details: error.message,
+      details: err.message
     });
   }
 });
 
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 API server running on http://localhost:${PORT}`);
-});
+app.listen(5001, () => console.log("🚀 API listening on port 5001"));
