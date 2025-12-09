@@ -7,15 +7,25 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node src/backend/server.js"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.1.17",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
     "firebase": "^12.6.0",
+    "firebase-admin": "^13.6.0",
     "framer-motion": "^12.23.25",
+    "ldrs": "^1.1.9",
+    "lucide-react": "^0.556.0",
+    "openai": "^6.10.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.10.1",
+    "sonner": "^2.0.7",
     "tailwindcss": "^4.1.17"
   },
   "devDependencies": {

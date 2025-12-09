@@ -18,7 +18,6 @@ export default function Sidebar() {
   const navItems = [
     { label: "Dashboard", path: "/dashboard", icon: "📊" },
     { label: "My Projects", path: "/dashboard/projects", icon: "📁" },
-    { label: "Templates", path: "/dashboard/templates", icon: "🎨" },
     { label: "Settings", path: "/dashboard/settings", icon: "⚙️" },
   ];
 
@@ -56,7 +55,7 @@ export default function Sidebar() {
       <div className="p-4 border-t border-black/5">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 bg-red-50 text-red-600 hover:bg-red-100 font-medium py-3 rounded-xl transition cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-red-200 text-red-700 hover:bg-red-300 font-medium py-3 rounded-xl transition cursor-pointer"
         >
           <span></span>
           Log out
