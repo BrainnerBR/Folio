@@ -22,7 +22,7 @@ export default function Navbar() {
           to="/"
           className="text-2xl font-bold text-text cursor-pointer hover:text-primaryHover transition"
         >
-          Folio
+          Folio<span className="text-primary">.</span>
         </Link>
 
         {/* Center - Navigation links */}

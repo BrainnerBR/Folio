@@ -4,7 +4,9 @@ export default function Footer() {
       <div className="flex flex-col md:flex-row justify-between gap-14">
         {/* Logo + Text */}
         <div className="max-w-xs">
-          <h2 className="text-2xl font-extrabold text-black">Folio</h2>
+          <h2 className="text-2xl font-extrabold text-black">
+            Folio<span className="text-primary">.</span>
+          </h2>
           <p className="text-black mt-2">
             Transform your ideas into stunning visuals.
           </p>
