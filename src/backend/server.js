@@ -2,8 +2,13 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { Groq } from "groq-sdk";
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: join(__dirname, '.env') });
 
 const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));

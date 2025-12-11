@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, X, Home } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Home, Save } from "lucide-react";
+import { db } from "../../Services/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useAuth } from "../../context/AuthContext";
+import { toast } from "sonner";
 
 export default function PresentationViewer() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const presentationData = location.state?.presentation;
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
 
   if (!presentationData) {
     return (
@@ -49,6 +55,32 @@ export default function PresentationViewer() {
     if (e.key === "Escape") navigate("/dashboard");
   };
 
+  const handleSavePresentation = async () => {
+    if (!user) {
+      toast.error("You must be logged in to save presentations");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await addDoc(collection(db, "presentations"), {
+        userId: user.uid,
+        title: presentationData.title,
+        description: presentationData.description || "",
+        slides: presentationData.slides,
+        createdAt: new Date(),
+        slideCount: presentationData.slides.length,
+      });
+
+      toast.success("Presentation saved successfully!");
+    } catch (error) {
+      console.error("Error saving presentation:", error);
+      toast.error("Failed to save presentation");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col"
@@ -68,6 +100,17 @@ export default function PresentationViewer() {
             <span className="text-sm text-gray-400">
               {currentSlide + 1} / {totalSlides}
             </span>
+            <button
+              onClick={handleSavePresentation}
+              disabled={isSaving}
+              className="flex items-center gap-2 px-4 py-2 bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-black rounded-lg transition font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Save Presentation"
+            >
+              <Save size={20} />
+              <span className="hidden sm:inline">
+                {isSaving ? "Saving..." : "Save"}
+              </span>
+            </button>
             <button
               onClick={() => navigate("/dashboard")}
               className="p-2 hover:bg-white/10 rounded-lg transition text-white"
