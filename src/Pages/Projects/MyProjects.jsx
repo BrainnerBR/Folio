@@ -1,8 +1,23 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FolderOpen, Plus, Search, FileText, Calendar } from "lucide-react";
+import {
+  FolderOpen,
+  Plus,
+  Search,
+  FileText,
+  Calendar,
+  Trash2,
+} from "lucide-react";
 import { db } from "../../Services/firebase";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -46,12 +61,33 @@ export default function MyProjects() {
     navigate("/presentation", {
       state: {
         presentation: {
-          title: presentation.title,
-          description: presentation.description,
-          slides: presentation.slides,
+          ...presentation, // Pasamos todo el objeto, incluyendo id y theme
         },
       },
     });
+  };
+
+  const handleDeleteProject = async (e, projectId) => {
+    e.stopPropagation(); // Evitar que se abra la presentación al hacer clic en borrar
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this project? This action cannot be undone."
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "presentations", projectId));
+
+      // Actualizar estado local
+      setProjects(projects.filter((p) => p.id !== projectId));
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      toast.error("Failed to delete project");
+    }
   };
 
   const formatDate = (timestamp) => {
@@ -135,18 +171,29 @@ export default function MyProjects() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-[color:var(--color-primary)] group"
+                onClick={() => handleViewPresentation(project)}
+                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-[color:var(--color-primary)] group cursor-pointer relative"
               >
+                <div className="absolute bottom-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={(e) => handleDeleteProject(e, project.id)}
+                    className="p-2 bg-white/80 hover:bg-red-50 text-red-500 rounded-lg backdrop-blur-sm shadow-sm hover:shadow transition-all"
+                    title="Delete Project"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+
                 <div className="flex items-start justify-between mb-4">
                   <div className="p-3 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl text-white">
                     <FileText size={24} />
                   </div>
                   <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                    {project.slideCount} slides
+                    {project.slideCount || 0} slides
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 pr-8">
                   {project.title}
                 </h3>
 
@@ -156,17 +203,10 @@ export default function MyProjects() {
                   </p>
                 )}
 
-                <div className="flex items-center gap-2 text-xs text-gray-500 mb-4">
+                <div className="flex items-center gap-2 text-xs text-gray-500">
                   <Calendar size={14} />
                   <span>{formatDate(project.createdAt)}</span>
                 </div>
-
-                <button
-                  onClick={() => handleViewPresentation(project)}
-                  className="w-full bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-black font-semibold py-2.5 rounded-xl transition cursor-pointer"
-                >
-                  View Presentation
-                </button>
               </motion.div>
             ))}
           </div>

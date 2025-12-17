@@ -12,16 +12,32 @@ export const generatePresentation = async (req, res) => {
       return res.status(400).json({ error: "Prompt is required" });
     }
 
+    // Seleccionar theme basado en el prompt
+    const theme = selectThemeFromPrompt(prompt);
+
     const systemPrompt = `
 You are a professional presentation generator. 
 ALWAYS respond with a valid JSON object (and nothing else) containing:
 - "title": String
 - "description": String
-- "slides": Array of objects with "title" and "content"
+- "theme": String (one of: "modern-light", "modern-dark", "minimal-light", "creative", "professional", "vibrant")
+- "slides": Array of objects with:
+  - "title": String
+  - "content": String
+  - "layout": String (one of: "cover-center", "title-bullets", "two-columns", "big-quote", "content-focus")
+
+Layout Guidelines:
+- Use "cover-center" for the first slide (title page) and conclusion slides
+- Use "title-bullets" for lists and key points (separate items with newlines)
+- Use "two-columns" for comparisons (separate columns with "||")
+- Use "big-quote" for important quotes or statistics
+- Use "content-focus" for general content and explanations
 
 VERY IMPORTANT:
 - Do NOT include markdown formatting like \`\`\`json or \`\`\`.
 - Do NOT include any explanation, only the raw JSON.
+- Make content engaging and professional.
+- For "title-bullets" layout, separate each bullet point with a newline.
 `;
 
     const result = await model.generateContent(
@@ -56,6 +72,11 @@ VERY IMPORTANT:
       });
     }
 
+    // Asegurar que el theme esté presente (fallback)
+    if (!json.theme) {
+      json.theme = theme;
+    }
+
     return res.json({
       success: true,
       data: json,
@@ -68,3 +89,65 @@ VERY IMPORTANT:
     });
   }
 };
+
+/**
+ * Selecciona un theme apropiado basado en palabras clave del prompt
+ */
+function selectThemeFromPrompt(prompt) {
+  const lowerPrompt = prompt.toLowerCase();
+
+  const themeKeywords = {
+    "modern-dark": [
+      "dark",
+      "night",
+      "tech",
+      "technology",
+      "futuristic",
+      "innovation",
+      "digital",
+    ],
+    "minimal-light": [
+      "minimal",
+      "simple",
+      "clean",
+      "elegant",
+      "professional",
+      "corporate",
+      "business",
+    ],
+    creative: [
+      "creative",
+      "artistic",
+      "design",
+      "colorful",
+      "vibrant",
+      "fun",
+      "playful",
+    ],
+    professional: [
+      "professional",
+      "corporate",
+      "business",
+      "formal",
+      "executive",
+      "enterprise",
+    ],
+    vibrant: [
+      "vibrant",
+      "energetic",
+      "dynamic",
+      "bold",
+      "exciting",
+      "modern",
+      "startup",
+    ],
+  };
+
+  for (const [themeName, keywords] of Object.entries(themeKeywords)) {
+    if (keywords.some((keyword) => lowerPrompt.includes(keyword))) {
+      return themeName;
+    }
+  }
+
+  return "modern-light";
+}

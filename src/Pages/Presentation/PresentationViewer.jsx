@@ -9,11 +9,22 @@ import {
   Save,
   Maximize,
   Minimize,
+  Palette,
+  Trash2,
 } from "lucide-react";
 import { db } from "../../Services/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import { toast } from "sonner";
+import { applyTheme, getTheme, getThemeNames } from "./themes";
+import { assignLayouts } from "./SlideRenderer";
+import SlideRenderer from "./SlideRenderer";
 
 export default function PresentationViewer() {
   const location = useLocation();
@@ -21,10 +32,20 @@ export default function PresentationViewer() {
   const { user } = useAuth();
   const presentationData = location.state?.presentation;
   const containerRef = useRef(null);
+  const slideContainerRef = useRef(null);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [isPresentationMode, setIsPresentationMode] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState(
+    presentationData?.theme || "modern-light"
+  );
+  const [showThemeSelector, setShowThemeSelector] = useState(false);
+
+  // Usar el ID que viene en presentationData (si viene de mis proyectos)
+  const [presentationId, setPresentationId] = useState(
+    presentationData?.id || null
+  );
 
   if (!presentationData) {
     return (
@@ -44,7 +65,10 @@ export default function PresentationViewer() {
     );
   }
 
-  const { title, description, slides } = presentationData;
+  const { title, description, slides: rawSlides } = presentationData;
+
+  // Asignar layouts automáticamente si no los tienen
+  const slides = assignLayouts(rawSlides);
   const totalSlides = slides?.length || 0;
 
   const nextSlide = () => {
@@ -67,7 +91,7 @@ export default function PresentationViewer() {
       }
     } catch (error) {
       console.error("Error entering fullscreen:", error);
-      toast.error("No se pudo entrar en modo presentación");
+      toast.error("Could not enter presentation mode");
     }
   };
 
@@ -96,6 +120,13 @@ export default function PresentationViewer() {
     };
   }, []);
 
+  // Aplicar theme al contenedor de slides
+  useEffect(() => {
+    if (slideContainerRef.current) {
+      applyTheme(slideContainerRef.current, currentTheme);
+    }
+  }, [currentTheme]);
+
   const handleKeyPress = (e) => {
     if (e.key === "ArrowRight") nextSlide();
     if (e.key === "ArrowLeft") prevSlide();
@@ -116,21 +147,62 @@ export default function PresentationViewer() {
 
     setIsSaving(true);
     try {
-      await addDoc(collection(db, "presentations"), {
-        userId: user.uid,
-        title: presentationData.title,
-        description: presentationData.description || "",
-        slides: presentationData.slides,
-        createdAt: new Date(),
-        slideCount: presentationData.slides.length,
-      });
-
-      toast.success("Presentation saved successfully!");
+      if (presentationId) {
+        // Actualizar existente
+        const docRef = doc(db, "presentations", presentationId);
+        await updateDoc(docRef, {
+          title: presentationData.title, // En caso de que se pueda editar el título después
+          description: presentationData.description || "",
+          slides: slides, // Guardar con layouts asignados
+          theme: currentTheme,
+          updatedAt: new Date(),
+          slideCount: slides.length,
+        });
+        toast.success("Presentation updated successfully!");
+      } else {
+        // Crear nueva
+        const docRef = await addDoc(collection(db, "presentations"), {
+          userId: user.uid,
+          title: presentationData.title,
+          description: presentationData.description || "",
+          slides: slides,
+          theme: currentTheme,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          slideCount: slides.length,
+        });
+        setPresentationId(docRef.id);
+        toast.success("Presentation saved successfully!");
+      }
     } catch (error) {
       console.error("Error saving presentation:", error);
       toast.error("Failed to save presentation");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDeletePresentation = async () => {
+    if (!presentationId) {
+      toast.error("Cannot delete unsaved presentation");
+      return;
+    }
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this presentation? This action cannot be undone."
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, "presentations", presentationId));
+      toast.success("Presentation deleted successfully");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error deleting presentation:", error);
+      toast.error("Failed to delete presentation");
     }
   };
 
@@ -143,7 +215,7 @@ export default function PresentationViewer() {
     >
       {/* Header */}
       <header
-        className={`bg-black/30 backdrop-blur-sm border-b border-white/10 px-6 py-4 transition-opacity duration-300 ${
+        className={`relative z-50 bg-black/30 backdrop-blur-sm border-b border-white/10 px-6 py-4 transition-opacity duration-300 ${
           isPresentationMode ? "opacity-0 hover:opacity-100" : ""
         }`}
       >
@@ -158,6 +230,53 @@ export default function PresentationViewer() {
             <span className="text-sm text-gray-400">
               {currentSlide + 1} / {totalSlides}
             </span>
+
+            {/* Theme Selector */}
+            <div className="relative">
+              <button
+                onClick={() => setShowThemeSelector(!showThemeSelector)}
+                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition font-semibold"
+                title="Change theme"
+              >
+                <Palette size={20} />
+                <span className="hidden sm:inline">Theme</span>
+              </button>
+
+              {/* Theme Dropdown */}
+              {showThemeSelector && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 min-w-[200px] max-h-[60vh] overflow-y-auto"
+                >
+                  {getThemeNames().map((themeName) => {
+                    const theme = getTheme(themeName);
+                    return (
+                      <button
+                        key={themeName}
+                        onClick={() => {
+                          setCurrentTheme(themeName);
+                          setShowThemeSelector(false);
+                          toast.success(`Theme changed to ${theme.name}`);
+                        }}
+                        className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition flex items-center justify-between ${
+                          currentTheme === themeName ? "bg-indigo-50" : ""
+                        }`}
+                      >
+                        <span className="font-medium text-gray-800">
+                          {theme.name}
+                        </span>
+                        {currentTheme === themeName && (
+                          <div className="w-2 h-2 rounded-full bg-indigo-600" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </div>
+
             <button
               onClick={
                 isPresentationMode
@@ -167,8 +286,8 @@ export default function PresentationViewer() {
               className="flex items-center gap-2 px-4 py-2 bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-black rounded-lg transition font-semibold"
               title={
                 isPresentationMode
-                  ? "Salir de modo presentación"
-                  : "Modo presentación"
+                  ? "Exit presentation mode"
+                  : "Enter presentation mode"
               }
             >
               {isPresentationMode ? (
@@ -177,7 +296,7 @@ export default function PresentationViewer() {
                 <Maximize size={20} />
               )}
               <span className="hidden sm:inline">
-                {isPresentationMode ? "Salir" : "Presentar"}
+                {isPresentationMode ? "Exit" : "Present"}
               </span>
             </button>
             <button
@@ -191,10 +310,21 @@ export default function PresentationViewer() {
                 {isSaving ? "Saving..." : "Save"}
               </span>
             </button>
+            {/* Mostrar botón de eliminar solo si existe ID y no estamos en modo presentación completa */}
+            {presentationId && !isPresentationMode && (
+              <button
+                onClick={handleDeletePresentation}
+                className="p-2 hover:bg-red-500/10 text-red-500 rounded-lg transition"
+                title="Delete Presentation"
+              >
+                <Trash2 size={24} />
+              </button>
+            )}
+
             <button
               onClick={() => navigate("/dashboard")}
               className="p-2 hover:bg-white/10 rounded-lg transition text-white"
-              title="Exit Presentation"
+              title="Exit to Dashboard"
             >
               <X size={24} />
             </button>
@@ -204,24 +334,20 @@ export default function PresentationViewer() {
 
       {/* Slide Content */}
       <main className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-5xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-3xl shadow-2xl p-12 min-h-[500px] flex flex-col justify-center"
-            >
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                {slides[currentSlide]?.title}
-              </h2>
-              <div className="text-xl text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {slides[currentSlide]?.content}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+        <div ref={slideContainerRef} className="w-full max-w-6xl">
+          <div
+            className="rounded-3xl shadow-2xl overflow-hidden min-h-[600px] transition-all duration-500 ease-in-out"
+            style={{
+              background: "var(--theme-background-value)",
+            }}
+          >
+            <SlideRenderer
+              slide={slides[currentSlide]}
+              index={currentSlide}
+              theme={currentTheme}
+              isActive={true}
+            />
+          </div>
         </div>
       </main>
 
