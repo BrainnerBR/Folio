@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, ArrowLeft, Ghost } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function NotFound() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
@@ -53,7 +55,7 @@ export default function NotFound() {
           transition={{ delay: 0.4 }}
           className="text-2xl md:text-3xl font-semibold mb-4"
         >
-          Page Not Found
+          {t('not_found.title')}
         </motion.h2>
 
         <motion.p
@@ -62,8 +64,7 @@ export default function NotFound() {
           transition={{ delay: 0.5 }}
           className="text-(--color-text-secondary) text-lg mb-8 max-w-md mx-auto"
         >
-          Oops! It seems like you've ventured into the void. The page you are
-          looking for doesn't exist or has been moved.
+          {t('not_found.desc')}
         </motion.p>
 
         <motion.div
@@ -77,7 +78,7 @@ export default function NotFound() {
             className="flex items-center gap-2 px-6 py-3 rounded-xl border border-(--color-border-subtle) hover:bg-bg2 transition-colors font-medium cursor-pointer"
           >
             <ArrowLeft size={20} />
-            Go Back
+            {t('not_found.go_back')}
           </button>
 
           <Link
@@ -85,7 +86,7 @@ export default function NotFound() {
             className="flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-black font-semibold hover:bg-primaryHover transition-transform hover:scale-105 shadow-lg shadow-primary/20"
           >
             <Home size={20} />
-            Back Home
+            {t('not_found.back_home')}
           </Link>
         </motion.div>
       </motion.div>

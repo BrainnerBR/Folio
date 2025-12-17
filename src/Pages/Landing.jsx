@@ -2,8 +2,10 @@ import ServicesSection from "../Components/ServicesSection";
 import PricingSection from "../Components/PricingSection";
 import Footer from "../Components/Footer";
 import { motion } from "framer-motion";
+import { useTranslation, Trans } from "react-i18next";
 
 export default function Landing() {
+  const { t } = useTranslation();
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
@@ -43,15 +45,14 @@ export default function Landing() {
             className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg leading-tight"
             variants={fadeInUp}
           >
-            Create Beautiful <br className="hidden md:block"/> Presentations in Minutes
+            <Trans i18nKey="landing.hero.title" />
           </motion.h1>
 
           <motion.p 
             className="text-white/90 mt-6 text-lg md:text-xl max-w-2xl mx-auto"
             variants={fadeInUp}
           >
-            Folio transforms your ideas into professional slides using AI. Fast,
-            customizable and stunning.
+            {t('landing.hero.subtitle')}
           </motion.p>
 
           <motion.div 
@@ -64,7 +65,7 @@ export default function Landing() {
               whileTap={{ scale: 0.95 }}
               className="cursor-pointer bg-primary hover:bg-primaryHover text-black px-8 py-4 rounded-xl text-lg font-semibold transition shadow-lg hover:shadow-primary/50"
             >
-              Get Started
+              {t('landing.hero.cta_start')}
             </motion.button>
 
             <motion.button 
@@ -72,7 +73,7 @@ export default function Landing() {
               whileTap={{ scale: 0.95 }}
               className="cursor-pointer bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-xl text-lg font-semibold transition backdrop-blur-md"
             >
-              Watch Demo
+              {t('landing.hero.cta_demo')}
             </motion.button>
           </motion.div>
         </motion.div>

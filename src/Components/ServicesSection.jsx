@@ -1,25 +1,28 @@
 import { motion } from "framer-motion";
+import { useTranslation, Trans } from "react-i18next";
 
 export default function ServicesShowcase() {
+  const { t } = useTranslation();
+
   const features = [
     {
-      title: "AI Presentation Generator",
-      desc: "Generate full slide decks instantly with just a prompt.",
+      title: t('services.features.ai_gen.title'),
+      desc: t('services.features.ai_gen.desc'),
       icon: "⚡",
     },
     {
-      title: "Smart Templates",
-      desc: "Choose modern layouts optimized for clarity and impact.",
+      title: t('services.features.templates.title'),
+      desc: t('services.features.templates.desc'),
       icon: "🎨",
     },
     {
-      title: "Fast Editing Tools",
-      desc: "Modify text, colors, and structure with intuitive controls.",
+      title: t('services.features.tools.title'),
+      desc: t('services.features.tools.desc'),
       icon: "🛠️",
     },
     {
-      title: "Export to PDF / PPTX",
-      desc: "Download your presentation in professional formats.",
+      title: t('services.features.export.title'),
+      desc: t('services.features.export.desc'),
       icon: "📤",
     },
   ];
@@ -51,16 +54,14 @@ export default function ServicesShowcase() {
         {/* LEFT — Big Title */}
         <motion.div variants={itemVariants}>
           <h1 className="text-5xl md:text-6xl font-bold text-text leading-tight mb-6">
-            Transform Your Workflow <br /> With Intelligent Creation
+            <Trans i18nKey="services.title" />
           </h1>
         </motion.div>
 
         {/* RIGHT — Small paragraph */}
         <motion.div className="flex items-center" variants={itemVariants}>
           <p className="text-lg text-text/70 max-w-md">
-            Our AI-powered tools simplify your creative process with modern
-            presentation design, optimized structure, and automated visual
-            balance — all crafted to save time and elevate results.
+            {t('services.description')}
           </p>
         </motion.div>
       </motion.div>
@@ -97,8 +98,7 @@ export default function ServicesShowcase() {
         viewport={{ once: true }}
         transition={{ delay: 0.4, duration: 0.6 }}
       >
-        We make your creative work faster, clearer, and visually stronger — so
-        you can focus on building ideas, not formatting slides.
+        {t('services.bottom_text')}
       </motion.p>
     </section>
   );

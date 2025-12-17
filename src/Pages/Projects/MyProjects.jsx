@@ -21,8 +21,10 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 export default function MyProjects() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
@@ -72,7 +74,7 @@ export default function MyProjects() {
 
     if (
       !window.confirm(
-        "Are you sure you want to delete this project? This action cannot be undone."
+        t('projects.delete_confirm')
       )
     ) {
       return;
@@ -83,10 +85,10 @@ export default function MyProjects() {
 
       // Actualizar estado local
       setProjects(projects.filter((p) => p.id !== projectId));
-      toast.success("Project deleted successfully");
+      toast.success(t('projects.delete_success'));
     } catch (error) {
       console.error("Error deleting project:", error);
-      toast.error("Failed to delete project");
+      toast.error(t('projects.delete_error'));
     }
   };
 
@@ -116,11 +118,11 @@ export default function MyProjects() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-extrabold text-[color:var(--color-text)]">
-            My Projects
+            {t('projects.title')}
           </h1>
           <p className="text-[color:var(--color-text-secondary)] mt-1">
             {projects.length}{" "}
-            {projects.length === 1 ? "presentation" : "presentations"} saved
+            {t('projects.saved')}
           </p>
         </div>
 
@@ -130,7 +132,7 @@ export default function MyProjects() {
             className="flex items-center gap-2 bg-[color:var(--color-text)] text-white px-5 py-2.5 rounded-xl font-medium hover:bg-black/80 transition"
           >
             <Plus size={18} />
-            New Presentation
+            {t('projects.new')}
           </button>
         )}
       </div>
@@ -148,18 +150,17 @@ export default function MyProjects() {
               <FolderOpen size={48} strokeWidth={1.5} />
             </div>
             <h3 className="text-xl font-bold text-[color:var(--color-text)] mb-2">
-              No presentations yet
+              {t('projects.empty.title')}
             </h3>
             <p className="text-[color:var(--color-text-secondary)] max-w-sm mb-6">
-              It looks like you haven't saved any presentations yet. Start by
-              creating your first AI-generated presentation.
+              {t('projects.empty.desc')}
             </p>
             <button
               onClick={() => navigate("/dashboard")}
               className="flex items-center gap-2 bg-[color:var(--color-primary)] text-black px-6 py-3 rounded-xl font-bold hover:bg-[color:var(--color-primary-hover)] transition shadow-lg shadow-yellow-500/20"
             >
               <Plus size={20} />
-              Create New Presentation
+              {t('projects.empty.create')}
             </button>
           </motion.div>
         ) : (
@@ -189,7 +190,7 @@ export default function MyProjects() {
                     <FileText size={24} />
                   </div>
                   <span className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                    {project.slideCount || 0} slides
+                    {project.slideCount || 0} {t('projects.slides')}
                   </span>
                 </div>
 

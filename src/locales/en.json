@@ -1,0 +1,262 @@
+{
+    "navbar": {
+        "home": "Home",
+        "pricing": "Pricing",
+        "templates": "Templates",
+        "dashboard": "Dashboard",
+        "logout": "Log out",
+        "login": "Log in",
+        "signup": "Sign up",
+        "my_projects": "My Projects",
+        "settings": "Settings"
+    },
+    "landing": {
+        "hero": {
+            "title": "Create Beautiful <br class=\"hidden md:block\"/> Presentations in Minutes",
+            "subtitle": "Folio transforms your ideas into professional slides using AI. Fast, customizable and stunning.",
+            "cta_start": "Get Started",
+            "cta_demo": "Watch Demo"
+        }
+    },
+    "footer": {
+        "tagline": "Transform your ideas into stunning visuals.",
+        "product": {
+            "title": "Product",
+            "features": "Features",
+            "templates": "Templates",
+            "integrations": "Integrations",
+            "ai_studio": "AI Studio",
+            "analytics": "Basic Analytics"
+        },
+        "company": {
+            "title": "Company",
+            "about": "About Us",
+            "careers": "Careers",
+            "blog": "Blog",
+            "partners": "Partners"
+        },
+        "resources": {
+            "title": "Resources",
+            "help": "Help Center",
+            "api": "API Documentation",
+            "tutorials": "Tutorials",
+            "support": "Support Chat"
+        },
+        "updates": {
+            "title": "Stay updated",
+            "placeholder": "Your email",
+            "subscribe": "Subscribe"
+        },
+        "copyright": "© 2025 Folio. All rights reserved | By BBR"
+    },
+    "auth": {
+        "login": {
+            "title": "Welcome Back",
+            "submit": "Sign In",
+            "no_account": "Don't have an account?",
+            "error": "Error logging in. Check your credentials."
+        },
+        "register": {
+            "title": "Create Account",
+            "submit": "Sign Up",
+            "have_account": "Already have an account?"
+        },
+        "email": "Email",
+        "password": "Password",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "signup": "Sign up",
+        "signin": "Sign in"
+    },
+    "pricing": {
+        "title": "Simple, Transparent Pricing",
+        "subtitle": "Choose the plan that fits your workflow. Upgrade anytime. Cancel whenever you want — no hidden fees.",
+        "popular": "Popular",
+        "contact": "Need help choosing a plan?",
+        "contact_link": "Contact us",
+        "button": "Choose Plan",
+        "plans": {
+            "pro": {
+                "name": "Pro",
+                "description": "Perfect for creators, freelancers and students.",
+                "features": [
+                    "Unlimited Presentations",
+                    "AI Slide Generator",
+                    "Premium Templates Library",
+                    "Cloud Storage (10GB)",
+                    "Export to PDF/PPTX",
+                    "Basic Analytics"
+                ]
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "description": "Designed for teams and businesses that need more power.",
+                "features": [
+                    "All Pro Features",
+                    "Advanced Custom Branding",
+                    "Prioritized AI Support",
+                    "AI Team Collaboration",
+                    "Admin Access & Controls",
+                    "API Access",
+                    "Unlimited Cloud Storage"
+                ]
+            }
+        }
+    },
+    "services": {
+        "title": "Transform Your Workflow <br /> With Intelligent Creation",
+        "description": "Our AI-powered tools simplify your creative process with modern presentation design, optimized structure, and automated visual balance — all crafted to save time and elevate results.",
+        "bottom_text": "We make your creative work faster, clearer, and visually stronger — so you can focus on building ideas, not formatting slides.",
+        "features": {
+            "ai_gen": {
+                "title": "AI Presentation Generator",
+                "desc": "Generate full slide decks instantly with just a prompt."
+            },
+            "templates": {
+                "title": "Smart Templates",
+                "desc": "Choose modern layouts optimized for clarity and impact."
+            },
+            "tools": {
+                "title": "Fast Editing Tools",
+                "desc": "Modify text, colors, and structure with intuitive controls."
+            },
+            "export": {
+                "title": "Export to PDF / PPTX",
+                "desc": "Download your presentation in professional formats."
+            }
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your account preferences and settings.",
+        "profile": {
+            "title": "Profile Information",
+            "display_name": "Display Name",
+            "email": "Email Address",
+            "save": "Save",
+            "saving": "Saving..."
+        },
+        "preferences": {
+            "title": "Preferences",
+            "language": "Language",
+            "appearance": "Appearance",
+            "light": "Light",
+            "dark": "Dark"
+        },
+        "notifications": {
+            "title": "Notifications",
+            "email_title": "Email Notifications",
+            "email_desc": "Receive updates about your projects and account."
+        }
+    },
+    "inspiration": {
+        "startup": {
+            "text": "Startup Pitch Deck",
+            "desc": "Classic investor structure"
+        },
+        "marketing": {
+            "text": "Marketing Report",
+            "desc": "Monthly KPI & strategy analysis"
+        },
+        "business": {
+            "text": "Business Proposal",
+            "desc": "Client service offer"
+        },
+        "product": {
+            "text": "Product Launch",
+            "desc": "New product introduction strategy"
+        },
+        "culture": {
+            "text": "Company Culture",
+            "desc": "Team values and mission presentation"
+        },
+        "sales": {
+            "text": "Sales Strategy",
+            "desc": "Quarterly sales plan and goals"
+        },
+        "workshop": {
+            "text": "Educational Workshop",
+            "desc": "Interactive learning session"
+        },
+        "tech": {
+            "text": "Tech Innovation",
+            "desc": "Emerging technology showcase"
+        },
+        "review": {
+            "text": "Annual Review",
+            "desc": "Year-end achievements and metrics"
+        },
+        "portfolio": {
+            "text": "Creative Portfolio",
+            "desc": "Showcase your best work"
+        },
+        "investment": {
+            "text": "Investment Opportunity",
+            "desc": "Financial projections and ROI"
+        },
+        "training": {
+            "text": "Training Program",
+            "desc": "Employee development initiative"
+        },
+        "event": {
+            "text": "Event Planning",
+            "desc": "Conference or seminar overview"
+        },
+        "case": {
+            "text": "Case Study",
+            "desc": "Success story and lessons learned"
+        },
+        "brand": {
+            "text": "Brand Identity",
+            "desc": "Visual and messaging guidelines"
+        }
+    },
+    "dashboard": {
+        "greeting": "Hello,",
+        "subtitle": "What story shall we create today?",
+        "input_placeholder": "Describe your idea here. Ex: A modern presentation for a sustainable clothing brand seeking investment...",
+        "generate_button": "Generate",
+        "generating": "Generating...",
+        "inspiration_title": "Quick Inspiration",
+        "view_all": "View all",
+        "creative_assistant": "Creative Assistant",
+        "all_ideas": "All Presentation Ideas",
+        "click_to_use": "Click any idea to use it as your prompt"
+    },
+    "projects": {
+        "title": "My Projects",
+        "saved": "presentation(s) saved",
+        "new": "New Presentation",
+        "empty": {
+            "title": "No presentations yet",
+            "desc": "It looks like you haven't saved any presentations yet. Start by creating your first AI-generated presentation.",
+            "create": "Create New Presentation"
+        },
+        "delete_confirm": "Are you sure you want to delete this project? This action cannot be undone.",
+        "delete_success": "Project deleted successfully",
+        "delete_error": "Failed to delete project",
+        "slides": "slides"
+    },
+    "not_found": {
+        "title": "Page Not Found",
+        "desc": "Oops! It seems like you've ventured into the void. The page you are looking for doesn't exist or has been moved.",
+        "go_back": "Go Back",
+        "back_home": "Back Home"
+    },
+    "presentation": {
+        "no_data": "No presentation data found",
+        "go_dashboard": "Go to Dashboard",
+        "theme": "Theme",
+        "theme_changed": "Theme changed to {{theme}}",
+        "present": "Present",
+        "exit_present": "Exit",
+        "save": "Save",
+        "saving": "Saving...",
+        "dashboard": "Dashboard",
+        "use_arrows": "Use ← → keys",
+        "save_success": "Presentation saved successfully!",
+        "update_success": "Presentation updated successfully!",
+        "delete_success": "Presentation deleted successfully",
+        "delete_confirm": "Are you sure you want to delete this presentation? This action cannot be undone."
+    }
+}

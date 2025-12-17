@@ -1,0 +1,262 @@
+{
+    "navbar": {
+        "home": "Inicio",
+        "pricing": "Precios",
+        "templates": "Plantillas",
+        "dashboard": "Panel",
+        "logout": "Cerrar sesión",
+        "login": "Iniciar sesión",
+        "signup": "Registrarse",
+        "my_projects": "Mis Proyectos",
+        "settings": "Configuración"
+    },
+    "landing": {
+        "hero": {
+            "title": "Crea Hermosas <br class=\"hidden md:block\"/> Presentaciones en Minutos",
+            "subtitle": "Folio transforma tus ideas en diapositivas profesionales usando IA. Rápido, personalizable y sorprendente.",
+            "cta_start": "Comenzar",
+            "cta_demo": "Ver Demo"
+        }
+    },
+    "footer": {
+        "tagline": "Transforma tus ideas en visuales impactantes.",
+        "product": {
+            "title": "Producto",
+            "features": "Características",
+            "templates": "Plantillas",
+            "integrations": "Integraciones",
+            "ai_studio": "Estudio IA",
+            "analytics": "Analítica Básica"
+        },
+        "company": {
+            "title": "Compañía",
+            "about": "Sobre Nosotros",
+            "careers": "Carreras",
+            "blog": "Blog",
+            "partners": "Socios"
+        },
+        "resources": {
+            "title": "Recursos",
+            "help": "Centro de Ayuda",
+            "api": "Documentación API",
+            "tutorials": "Tutoriales",
+            "support": "Chat de Soporte"
+        },
+        "updates": {
+            "title": "Mantente actualizado",
+            "placeholder": "Tu correo",
+            "subscribe": "Suscribirse"
+        },
+        "copyright": "© 2025 Folio. Todos los derechos reservados | Por BBR"
+    },
+    "auth": {
+        "login": {
+            "title": "Bienvenido de nuevo",
+            "submit": "Iniciar Sesión",
+            "no_account": "¿No tienes una cuenta?",
+            "error": "Error al iniciar sesión. Verifica tus credenciales."
+        },
+        "register": {
+            "title": "Crear Cuenta",
+            "submit": "Registrarse",
+            "have_account": "¿Ya tienes una cuenta?"
+        },
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "signup": "Registrarse",
+        "signin": "Ingresar"
+    },
+    "pricing": {
+        "title": "Precios Simples y Transparentes",
+        "subtitle": "Elige el plan que se adapte a tu flujo de trabajo. Actualiza en cualquier momento. Cancela cuando quieras — sin cargos ocultos.",
+        "popular": "Popular",
+        "contact": "¿Necesitas ayuda para elegir?",
+        "contact_link": "Contáctanos",
+        "button": "Elegir Plan",
+        "plans": {
+            "pro": {
+                "name": "Pro",
+                "description": "Perfecto para creadores, freelancers y estudiantes.",
+                "features": [
+                    "Presentaciones Ilimitadas",
+                    "Generador de Diapositivas IA",
+                    "Biblioteca de Plantillas Premium",
+                    "Almacenamiento en Nube (10GB)",
+                    "Exportar a PDF/PPTX",
+                    "Analítica Básica"
+                ]
+            },
+            "enterprise": {
+                "name": "Empresarial",
+                "description": "Diseñado para equipos y empresas que necesitan más potencia.",
+                "features": [
+                    "Todas las funciones Pro",
+                    "Marca Personalizada Avanzada",
+                    "Soporte IA Prioritario",
+                    "Colaboración en Equipo IA",
+                    "Controles y Acceso de Admin",
+                    "Acceso API",
+                    "Almacenamiento Ilimitado"
+                ]
+            }
+        }
+    },
+    "services": {
+        "title": "Transforma tu Flujo de Trabajo <br /> Con Creación Inteligente",
+        "description": "Nuestras herramientas impulsadas por IA simplifican tu proceso creativo con diseño moderno, estructura optimizada y balance visual automatizado.",
+        "bottom_text": "Hacemos tu trabajo creativo más rápido, claro y visualmente fuerte — para que te enfoques en las ideas, no en el formato.",
+        "features": {
+            "ai_gen": {
+                "title": "Generador de Presentaciones IA",
+                "desc": "Genera diapositivas completas al instante con solo un prompt."
+            },
+            "templates": {
+                "title": "Plantillas Inteligentes",
+                "desc": "Elige diseños modernos optimizados para claridad e impacto."
+            },
+            "tools": {
+                "title": "Herramientas de Edición Rápida",
+                "desc": "Modifica texto, colores y estructura con controles intuitivos."
+            },
+            "export": {
+                "title": "Exportar a PDF / PPTX",
+                "desc": "Descarga tu presentación en formatos profesionales."
+            }
+        }
+    },
+    "settings": {
+        "title": "Ajustes",
+        "subtitle": "Administra las preferencias y configuraciones de tu cuenta.",
+        "profile": {
+            "title": "Información del Perfil",
+            "display_name": "Nombre para mostrar",
+            "email": "Correo electrónico",
+            "save": "Guardar",
+            "saving": "Guardando..."
+        },
+        "preferences": {
+            "title": "Preferencias",
+            "language": "Idioma",
+            "appearance": "Apariencia",
+            "light": "Claro",
+            "dark": "Oscuro"
+        },
+        "notifications": {
+            "title": "Notificaciones",
+            "email_title": "Notificaciones por correo",
+            "email_desc": "Recibe actualizaciones sobre tus proyectos y cuenta."
+        }
+    },
+    "inspiration": {
+        "startup": {
+            "text": "Pitch Deck Startup",
+            "desc": "Estructura clásica para inversores"
+        },
+        "marketing": {
+            "text": "Reporte de Marketing",
+            "desc": "KPI mensuales y análisis de estrategia"
+        },
+        "business": {
+            "text": "Propuesta de Negocio",
+            "desc": "Oferta de servicios para clientes"
+        },
+        "product": {
+            "text": "Lanzamiento de Producto",
+            "desc": "Estrategia para nuevos productos"
+        },
+        "culture": {
+            "text": "Cultura Empresarial",
+            "desc": "Valores de equipo y misión"
+        },
+        "sales": {
+            "text": "Estrategia de Ventas",
+            "desc": "Plan trimestral y objetivos"
+        },
+        "workshop": {
+            "text": "Taller Educativo",
+            "desc": "Sesión de aprendizaje interactiva"
+        },
+        "tech": {
+            "text": "Innovación Tecnológica",
+            "desc": "Muestra de tecnología emergente"
+        },
+        "review": {
+            "text": "Revisión Anual",
+            "desc": "Logros y métricas de fin de año"
+        },
+        "portfolio": {
+            "text": "Portafolio Creativo",
+            "desc": "Muestra tu mejor trabajo"
+        },
+        "investment": {
+            "text": "Oportunidad de Inversión",
+            "desc": "Proyecciones financieras y ROI"
+        },
+        "training": {
+            "text": "Programa de Capacitación",
+            "desc": "Iniciativa de desarrollo de empleados"
+        },
+        "event": {
+            "text": "Planificación de Eventos",
+            "desc": "Resumen de conferencia o seminario"
+        },
+        "case": {
+            "text": "Estudio de Caso",
+            "desc": "Historia de éxito y lecciones aprendidas"
+        },
+        "brand": {
+            "text": "Identidad de Marca",
+            "desc": "Guías visuales y de mensajes"
+        }
+    },
+    "dashboard": {
+        "greeting": "Hola,",
+        "subtitle": "¿Qué historia crearemos hoy?",
+        "input_placeholder": "Describe tu idea aquí. Ej: Una presentación moderna para una marca de ropa sostenible buscando inversión...",
+        "generate_button": "Generar",
+        "generating": "Generando...",
+        "inspiration_title": "Inspiración Rápida",
+        "view_all": "Ver todo",
+        "creative_assistant": "Asistente Creativo",
+        "all_ideas": "Todas las Ideas",
+        "click_to_use": "Haz clic en una idea para usarla"
+    },
+    "projects": {
+        "title": "Mis Proyectos",
+        "saved": "presentación(es) guardada(s)",
+        "new": "Nueva Presentación",
+        "empty": {
+            "title": "Aún no hay presentaciones",
+            "desc": "Parece que aún no has guardado ninguna presentación. Comienza creando tu primera presentación generada por IA.",
+            "create": "Crear Nueva Presentación"
+        },
+        "delete_confirm": "¿Estás seguro de que quieres eliminar este proyecto? Esta acción no se puede deshacer.",
+        "delete_success": "Proyecto eliminado con éxito",
+        "delete_error": "Error al eliminar proyecto",
+        "slides": "diapositivas"
+    },
+    "not_found": {
+        "title": "Página No Encontrada",
+        "desc": "¡Vaya! Parece que te has aventurado en el vacío. La página que buscas no existe o se ha movido.",
+        "go_back": "Regresar",
+        "back_home": "Volver al Inicio"
+    },
+    "presentation": {
+        "no_data": "No se encontraron datos de presentación",
+        "go_dashboard": "Ir al Panel",
+        "theme": "Tema",
+        "theme_changed": "Tema cambiado a {{theme}}",
+        "present": "Presentar",
+        "exit_present": "Salir",
+        "save": "Guardar",
+        "saving": "Guardando...",
+        "dashboard": "Panel",
+        "use_arrows": "Usa las teclas ← →",
+        "save_success": "¡Presentación guardada con éxito!",
+        "update_success": "¡Presentación actualizada con éxito!",
+        "delete_success": "Presentación eliminada con éxito",
+        "delete_confirm": "¿Estás seguro de que quieres eliminar esta presentación? Esta acción no se puede deshacer."
+    }
+}

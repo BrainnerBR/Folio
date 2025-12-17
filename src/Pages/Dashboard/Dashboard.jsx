@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../Services/firebase";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 import {
   Sparkles,
   ArrowRight,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
@@ -93,92 +95,92 @@ export default function Dashboard() {
   const allExamples = [
     {
       icon: <Zap size={20} className="text-blue-600" />,
-      text: "Startup Pitch Deck",
-      desc: "Classic investor structure",
+      text: t('inspiration.startup.text'),
+      desc: t('inspiration.startup.desc'),
       color: "bg-blue-50 border-blue-100 hover:border-blue-200",
     },
     {
       icon: <TrendingUp size={20} className="text-emerald-600" />,
-      text: "Marketing Report",
-      desc: "Monthly KPI & strategy analysis",
+      text: t('inspiration.marketing.text'),
+      desc: t('inspiration.marketing.desc'),
       color: "bg-emerald-50 border-emerald-100 hover:border-emerald-200",
     },
     {
       icon: <Lightbulb size={20} className="text-amber-600" />,
-      text: "Business Proposal",
-      desc: "Client service offer",
+      text: t('inspiration.business.text'),
+      desc: t('inspiration.business.desc'),
       color: "bg-amber-50 border-amber-100 hover:border-amber-200",
     },
     {
       icon: <Presentation size={20} className="text-purple-600" />,
-      text: "Product Launch",
-      desc: "New product introduction strategy",
+      text: t('inspiration.product.text'),
+      desc: t('inspiration.product.desc'),
       color: "bg-purple-50 border-purple-100 hover:border-purple-200",
     },
     {
       icon: <Sparkles size={20} className="text-pink-600" />,
-      text: "Company Culture",
-      desc: "Team values and mission presentation",
+      text: t('inspiration.culture.text'),
+      desc: t('inspiration.culture.desc'),
       color: "bg-pink-50 border-pink-100 hover:border-pink-200",
     },
     {
       icon: <TrendingUp size={20} className="text-indigo-600" />,
-      text: "Sales Strategy",
-      desc: "Quarterly sales plan and goals",
+      text: t('inspiration.sales.text'),
+      desc: t('inspiration.sales.desc'),
       color: "bg-indigo-50 border-indigo-100 hover:border-indigo-200",
     },
     {
       icon: <Lightbulb size={20} className="text-orange-600" />,
-      text: "Educational Workshop",
-      desc: "Interactive learning session",
+      text: t('inspiration.workshop.text'),
+      desc: t('inspiration.workshop.desc'),
       color: "bg-orange-50 border-orange-100 hover:border-orange-200",
     },
     {
       icon: <Zap size={20} className="text-cyan-600" />,
-      text: "Tech Innovation",
-      desc: "Emerging technology showcase",
+      text: t('inspiration.tech.text'),
+      desc: t('inspiration.tech.desc'),
       color: "bg-cyan-50 border-cyan-100 hover:border-cyan-200",
     },
     {
       icon: <Presentation size={20} className="text-rose-600" />,
-      text: "Annual Review",
-      desc: "Year-end achievements and metrics",
+      text: t('inspiration.review.text'),
+      desc: t('inspiration.review.desc'),
       color: "bg-rose-50 border-rose-100 hover:border-rose-200",
     },
     {
       icon: <Sparkles size={20} className="text-teal-600" />,
-      text: "Creative Portfolio",
-      desc: "Showcase your best work",
+      text: t('inspiration.portfolio.text'),
+      desc: t('inspiration.portfolio.desc'),
       color: "bg-teal-50 border-teal-100 hover:border-teal-200",
     },
     {
       icon: <TrendingUp size={20} className="text-lime-600" />,
-      text: "Investment Opportunity",
-      desc: "Financial projections and ROI",
+      text: t('inspiration.investment.text'),
+      desc: t('inspiration.investment.desc'),
       color: "bg-lime-50 border-lime-100 hover:border-lime-200",
     },
     {
       icon: <Lightbulb size={20} className="text-violet-600" />,
-      text: "Training Program",
-      desc: "Employee development initiative",
+      text: t('inspiration.training.text'),
+      desc: t('inspiration.training.desc'),
       color: "bg-violet-50 border-violet-100 hover:border-violet-200",
     },
     {
       icon: <Zap size={20} className="text-fuchsia-600" />,
-      text: "Event Planning",
-      desc: "Conference or seminar overview",
+      text: t('inspiration.event.text'),
+      desc: t('inspiration.event.desc'),
       color: "bg-fuchsia-50 border-fuchsia-100 hover:border-fuchsia-200",
     },
     {
       icon: <Presentation size={20} className="text-sky-600" />,
-      text: "Case Study",
-      desc: "Success story and lessons learned",
+      text: t('inspiration.case.text'),
+      desc: t('inspiration.case.desc'),
       color: "bg-sky-50 border-sky-100 hover:border-sky-200",
     },
     {
       icon: <Sparkles size={20} className="text-red-600" />,
-      text: "Brand Identity",
-      desc: "Visual and messaging guidelines",
+      text: t('inspiration.brand.text'),
+      desc: t('inspiration.brand.desc'),
       color: "bg-red-50 border-red-100 hover:border-red-200",
     },
   ];
@@ -197,16 +199,16 @@ export default function Dashboard() {
         >
           <div className="flex items-center gap-2 text-[color:var(--color-text-secondary)] mb-2 uppercase tracking-wider text-xs font-bold">
             <Sparkles size={14} className="text-[color:var(--color-primary)]" />
-            <span>Creative Assistant</span>
+            <span>{t('dashboard.creative_assistant')}</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[color:var(--color-text)] mb-3 leading-tight">
-            Hello,{" "}
+            {t('dashboard.greeting')}{" "}
             <span className="text-black">
               {user?.displayName?.split(" ")[0] || "Creator"}
             </span>
           </h1>
           <p className="text-xl text-[color:var(--color-text-secondary)] font-medium">
-            What story shall we create today?
+            {t('dashboard.subtitle')}
           </p>
         </motion.div>
 
@@ -233,7 +235,7 @@ export default function Dashboard() {
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Describe your idea here. Ex: A modern presentation for a sustainable clothing brand seeking investment..."
+              placeholder={t('dashboard.input_placeholder')}
               className="w-full text-lg p-5 rounded-2xl bg-gray-50/50 border border-gray-100 
                          focus:bg-white focus:border-[color:var(--color-primary)] focus:ring-4 focus:ring-[color:var(--color-primary)]/10 
                          outline-none transition-all resize-none min-h-[160px] 
@@ -254,11 +256,11 @@ export default function Dashboard() {
                 {isGenerating ? (
                   <>
                     <Loader2 size={20} className="animate-spin" />
-                    Generating...
+                    {t('dashboard.generating')}
                   </>
                 ) : (
                   <>
-                    Generate
+                    {t('dashboard.generate_button')}
                     <ArrowRight size={20} />
                   </>
                 )}
@@ -276,13 +278,13 @@ export default function Dashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-bold text-[color:var(--color-text)]">
-              Quick Inspiration
+              {t('dashboard.inspiration_title')}
             </h3>
             <button
               onClick={() => setShowAllIdeas(true)}
               className="text-sm font-medium text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-text)] transition-colors cursor-pointer"
             >
-              View all
+              {t('dashboard.view_all')}
             </button>
           </div>
 
@@ -335,10 +337,10 @@ export default function Dashboard() {
               <div className="sticky top-0 bg-white border-b border-gray-100 px-8 py-6 flex items-center justify-between z-10">
                 <div>
                   <h2 className="text-2xl font-bold text-[color:var(--color-text)] mb-1">
-                    All Presentation Ideas
+                    {t('dashboard.all_ideas')}
                   </h2>
                   <p className="text-sm text-[color:var(--color-text-secondary)]">
-                    Click any idea to use it as your prompt
+                    {t('dashboard.click_to_use')}
                   </p>
                 </div>
                 <button

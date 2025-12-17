@@ -25,8 +25,10 @@ import { toast } from "sonner";
 import { applyTheme, getTheme, getThemeNames } from "./themes";
 import { assignLayouts } from "./SlideRenderer";
 import SlideRenderer from "./SlideRenderer";
+import { useTranslation } from "react-i18next";
 
 export default function PresentationViewer() {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -52,13 +54,13 @@ export default function PresentationViewer() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            No presentation data found
+            {t('presentation.no_data')}
           </h2>
           <button
             onClick={() => navigate("/dashboard")}
             className="px-6 py-3 bg-[color:var(--color-primary)] text-black rounded-xl font-bold hover:bg-[color:var(--color-primary-hover)] transition"
           >
-            Go to Dashboard
+            {t('presentation.go_dashboard')}
           </button>
         </div>
       </div>
@@ -158,7 +160,7 @@ export default function PresentationViewer() {
           updatedAt: new Date(),
           slideCount: slides.length,
         });
-        toast.success("Presentation updated successfully!");
+        toast.success(t('presentation.update_success'));
       } else {
         // Crear nueva
         const docRef = await addDoc(collection(db, "presentations"), {
@@ -172,7 +174,7 @@ export default function PresentationViewer() {
           slideCount: slides.length,
         });
         setPresentationId(docRef.id);
-        toast.success("Presentation saved successfully!");
+        toast.success(t('presentation.save_success'));
       }
     } catch (error) {
       console.error("Error saving presentation:", error);
@@ -190,7 +192,7 @@ export default function PresentationViewer() {
 
     if (
       !window.confirm(
-        "Are you sure you want to delete this presentation? This action cannot be undone."
+        t('presentation.delete_confirm')
       )
     ) {
       return;
@@ -198,7 +200,7 @@ export default function PresentationViewer() {
 
     try {
       await deleteDoc(doc(db, "presentations", presentationId));
-      toast.success("Presentation deleted successfully");
+      toast.success(t('presentation.delete_success'));
       navigate("/dashboard");
     } catch (error) {
       console.error("Error deleting presentation:", error);
@@ -239,7 +241,7 @@ export default function PresentationViewer() {
                 title="Change theme"
               >
                 <Palette size={20} />
-                <span className="hidden sm:inline">Theme</span>
+                <span className="hidden sm:inline">{t('presentation.theme')}</span>
               </button>
 
               {/* Theme Dropdown */}
@@ -258,7 +260,7 @@ export default function PresentationViewer() {
                         onClick={() => {
                           setCurrentTheme(themeName);
                           setShowThemeSelector(false);
-                          toast.success(`Theme changed to ${theme.name}`);
+                          toast.success(t('presentation.theme_changed', { theme: theme.name }));
                         }}
                         className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition flex items-center justify-between ${
                           currentTheme === themeName ? "bg-indigo-50" : ""
@@ -296,7 +298,7 @@ export default function PresentationViewer() {
                 <Maximize size={20} />
               )}
               <span className="hidden sm:inline">
-                {isPresentationMode ? "Exit" : "Present"}
+                {isPresentationMode ? t('presentation.exit_present') : t('presentation.present')}
               </span>
             </button>
             <button
@@ -307,7 +309,7 @@ export default function PresentationViewer() {
             >
               <Save size={20} />
               <span className="hidden sm:inline">
-                {isSaving ? "Saving..." : "Save"}
+                {isSaving ? t('presentation.saving') : t('presentation.save')}
               </span>
             </button>
             {/* Mostrar botón de eliminar solo si existe ID y no estamos en modo presentación completa */}
@@ -354,7 +356,7 @@ export default function PresentationViewer() {
             className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition"
           >
             <Home size={20} />
-            <span className="hidden sm:inline">Dashboard</span>
+            <span className="hidden sm:inline">{t('presentation.dashboard')}</span>
           </button>
 
           <div className="flex items-center gap-4">
@@ -391,7 +393,7 @@ export default function PresentationViewer() {
           </div>
 
           <div className="w-24 text-right text-sm text-gray-400">
-            Use ← → keys
+            {t('presentation.use_arrows')}
           </div>
         </div>
       </footer>

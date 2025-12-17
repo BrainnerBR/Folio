@@ -1,37 +1,25 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function PricingSection() {
+  const { t } = useTranslation();
+
   const plans = [
     {
-      name: "Pro",
+      name: t('pricing.plans.pro.name'),
       price: "$19",
       period: "/month",
-      description: "Perfect for creators, freelancers and students.",
-      features: [
-        "Unlimited Presentations",
-        "AI Slide Generator",
-        "Premium Templates Library",
-        "Cloud Storage (10GB)",
-        "Export to PDF/PPTX",
-        "Basic Analytics",
-      ],
-      button: "Choose Plan",
+      description: t('pricing.plans.pro.description'),
+      features: t('pricing.plans.pro.features', { returnObjects: true }),
+      button: t('pricing.button'),
     },
     {
-      name: "Enterprise",
+      name: t('pricing.plans.enterprise.name'),
       price: "$49",
       period: "/month",
-      description: "Designed for teams and businesses that need more power.",
-      features: [
-        "All Pro Features",
-        "Advanced Custom Branding",
-        "Prioritized AI Support",
-        "AI Team Collaboration",
-        "Admin Access & Controls",
-        "API Access",
-        "Unlimited Cloud Storage",
-      ],
-      button: "Choose Plan",
+      description: t('pricing.plans.enterprise.description'),
+      features: t('pricing.plans.enterprise.features', { returnObjects: true }),
+      button: t('pricing.button'),
     },
   ];
 
@@ -60,11 +48,10 @@ export default function PricingSection() {
            transition={{ duration: 0.6 }}
         >
           <h2 className="text-5xl font-extrabold text-text mb-4 leading-tight">
-            Simple, Transparent Pricing
+            {t('pricing.title')}
           </h2>
           <p className="text-lg text-text/70 max-w-2xl mx-auto">
-            Choose the plan that fits your workflow. Upgrade anytime. Cancel
-            whenever you want — no hidden fees.
+            {t('pricing.subtitle')}
           </p>
         </motion.div>
       </div>
@@ -87,9 +74,9 @@ export default function PricingSection() {
   `}
           >
             {/* Popular Badge */}
-            {plan.popular && (
-              <span className="absolute -top-3 right-6 bg-(--color-primary) text-black text-xs font-semibold px-3 py-1 rounded-full shadow">
-                Popular
+            {index === 0 && (
+              <span className="absolute -top-3 right-6 bg-[color:var(--color-primary)] text-black text-xs font-semibold px-3 py-1 rounded-full shadow">
+                {t('pricing.popular')}
               </span>
             )}
 
@@ -113,7 +100,7 @@ export default function PricingSection() {
 
               {/* Features */}
               <ul className="space-y-3 mb-8">
-                {plan.features.map((feature, i) => (
+                {Array.isArray(plan.features) && plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-2 text-text/80">
                     <span className="text-lg">✔️</span>
                     <span>{feature}</span>
@@ -125,8 +112,8 @@ export default function PricingSection() {
             {/* Button fixed bottom */}
             <button
               className={`w-full py-3 rounded-xl font-semibold border transition cursor-pointer mt-auto ${
-                plan.popular
-                  ? "bg-(--color-primary) hover:bg-(--color-primaryHover) border-transparent text-black"
+                index === 0
+                  ? "bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primaryHover)] border-transparent text-black"
                   : "bg-primary hover:bg-primaryHover border-black/10 text-black"
               }`}
             >
@@ -144,12 +131,12 @@ export default function PricingSection() {
         viewport={{ once: true }}
         transition={{ delay: 0.6, duration: 0.6 }}
       >
-        Need help choosing a plan?{" "}
+        {t('pricing.contact')}{" "}
         <a
           href="#"
           className="text-primaryHover hover:text-primary font-medium"
         >
-          Contact us
+          {t('pricing.contact_link')}
         </a>
       </motion.div>
     </section>

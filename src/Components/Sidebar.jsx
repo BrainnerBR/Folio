@@ -1,7 +1,9 @@
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,9 +18,9 @@ export default function Sidebar() {
   };
 
   const navItems = [
-    { label: "Dashboard", path: "/dashboard", icon: "📊" },
-    { label: "My Projects", path: "/dashboard/projects", icon: "📁" },
-    { label: "Settings", path: "/dashboard/settings", icon: "⚙️" },
+    { label: t('navbar.dashboard'), path: "/dashboard", icon: "📊" },
+    { label: t('navbar.my_projects'), path: "/dashboard/projects", icon: "📁" },
+    { label: t('navbar.settings'), path: "/dashboard/settings", icon: "⚙️" },
   ];
 
   return (
@@ -52,13 +54,14 @@ export default function Sidebar() {
       </nav>
 
       {/* Logout */}
-      <div className="p-4 border-t border-black/5">
+      <div className="p-4 border-t border-black/5 space-y-4">
+
         <button
           onClick={handleLogout}
           className="w-full flex items-center justify-center gap-2 bg-red-200 text-red-700 hover:bg-red-300 font-medium py-3 rounded-xl transition cursor-pointer"
         >
           <span></span>
-          Log out
+          {t('navbar.logout')}
         </button>
       </div>
     </aside>

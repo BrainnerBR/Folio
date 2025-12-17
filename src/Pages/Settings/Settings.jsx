@@ -6,12 +6,13 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../Services/firebase";
 import { toast } from "sonner";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export default function Settings() {
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [isSaving, setIsSaving] = useState(false);
-  const [language, setLanguage] = useState("en");
   const [theme, setTheme] = useState("light");
   const [notifications, setNotifications] = useState(true);
 
@@ -49,10 +50,10 @@ export default function Settings() {
           transition={{ duration: 0.4 }}
         >
           <h1 className="text-3xl font-extrabold text-[color:var(--color-text)] mb-2">
-            Settings
+            {t('settings.title')}
           </h1>
           <p className="text-[color:var(--color-text-secondary)] mb-8">
-            Manage your account preferences and settings.
+            {t('settings.subtitle')}
           </p>
         </motion.div>
 
@@ -68,14 +69,14 @@ export default function Settings() {
               <User size={24} />
             </div>
             <h2 className="text-xl font-bold text-[color:var(--color-text)]">
-              Profile Information
+              {t('settings.profile.title')}
             </h2>
           </div>
 
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-[color:var(--color-text-secondary)] mb-1">
-                Display Name
+                {t('settings.profile.display_name')}
               </label>
               <div className="flex gap-4">
                 <input
@@ -89,14 +90,14 @@ export default function Settings() {
                   disabled={isSaving}
                   className="px-6 py-2.5 bg-[color:var(--color-text)] text-white rounded-xl font-medium hover:opacity-90 transition disabled:opacity-50"
                 >
-                  {isSaving ? "Saving..." : "Save"}
+                  {isSaving ? t('settings.profile.saving') : t('settings.profile.save')}
                 </button>
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-[color:var(--color-text-secondary)] mb-1">
-                Email Address
+                {t('settings.profile.email')}
               </label>
               <input
                 type="email"
@@ -120,7 +121,7 @@ export default function Settings() {
               <Globe size={24} />
             </div>
             <h2 className="text-xl font-bold text-[color:var(--color-text)]">
-              Preferences
+              {t('settings.preferences.title')}
             </h2>
           </div>
 
@@ -128,17 +129,16 @@ export default function Settings() {
             {/* Language Selector */}
             <div>
               <label className="block text-sm font-medium text-[color:var(--color-text-secondary)] mb-2">
-                Language
+                {t('settings.preferences.language')}
               </label>
               <div className="relative">
                 <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
+                  value={i18n.language}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
                   className="w-full appearance-none px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]/50"
                 >
                   <option value="en">English (US)</option>
                   <option value="es">Español</option>
-                  <option value="fr">Français</option>
                 </select>
                 <div className="absolute right-4 top-3.5 pointer-events-none text-gray-400">
                   <svg
@@ -161,7 +161,7 @@ export default function Settings() {
             {/* Theme Toggle (Mock) */}
             <div>
               <label className="block text-sm font-medium text-[color:var(--color-text-secondary)] mb-2">
-                Appearance
+                {t('settings.preferences.appearance')}
               </label>
               <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
                 <button
@@ -172,7 +172,7 @@ export default function Settings() {
                       : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  <span>Light</span>
+                  <span>{t('settings.preferences.light')}</span>
                 </button>
                 <button
                   onClick={() => setTheme("dark")}
@@ -183,7 +183,7 @@ export default function Settings() {
                   }`}
                 >
                   <Moon size={14} />
-                  <span>Dark</span>
+                  <span>{t('settings.preferences.dark')}</span>
                 </button>
               </div>
             </div>
@@ -202,17 +202,17 @@ export default function Settings() {
               <Bell size={24} />
             </div>
             <h2 className="text-xl font-bold text-[color:var(--color-text)]">
-              Notifications
+              {t('settings.notifications.title')}
             </h2>
           </div>
 
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium text-[color:var(--color-text)]">
-                Email Notifications
+                {t('settings.notifications.email_title')}
               </h3>
               <p className="text-sm text-[color:var(--color-text-secondary)]">
-                Receive updates about your projects and account.
+                {t('settings.notifications.email_desc')}
               </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
