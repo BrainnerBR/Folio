@@ -311,15 +311,6 @@ export default function PresentationViewer() {
               </span>
             </button>
             {/* Mostrar botón de eliminar solo si existe ID y no estamos en modo presentación completa */}
-            {presentationId && !isPresentationMode && (
-              <button
-                onClick={handleDeletePresentation}
-                className="p-2 hover:bg-red-500/10 text-red-500 rounded-lg transition"
-                title="Delete Presentation"
-              >
-                <Trash2 size={24} />
-              </button>
-            )}
 
             <button
               onClick={() => navigate("/dashboard")}
