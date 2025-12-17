@@ -221,7 +221,16 @@
         "view_all": "Ver todo",
         "creative_assistant": "Asistente Creativo",
         "all_ideas": "Todas las Ideas",
-        "click_to_use": "Haz clic en una idea para usarla"
+        "click_to_use": "Haz clic en una idea para usarla",
+        "choose_template": "Elige una Plantilla (Opcional)",
+        "no_template": "Por Defecto (IA Decide)"
+    },
+    "templates": {
+        "minimal-startup": "Startup Minimalista",
+        "creative-portfolio": "Portafolio Creativo",
+        "dark-tech": "Tecnología Oscura",
+        "corporate-blue": "Azul Corporativo",
+        "modern-marketing": "Marketing Moderno"
     },
     "projects": {
         "title": "Mis Proyectos",

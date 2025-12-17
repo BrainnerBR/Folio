@@ -221,7 +221,16 @@
         "view_all": "View all",
         "creative_assistant": "Creative Assistant",
         "all_ideas": "All Presentation Ideas",
-        "click_to_use": "Click any idea to use it as your prompt"
+        "click_to_use": "Click any idea to use it as your prompt",
+        "choose_template": "Choose a Template (Optional)",
+        "no_template": "Default (AI Decides)"
+    },
+    "templates": {
+        "minimal-startup": "Minimal Startup",
+        "creative-portfolio": "Creative Portfolio",
+        "dark-tech": "Dark Tech",
+        "corporate-blue": "Corporate Blue",
+        "modern-marketing": "Modern Marketing"
     },
     "projects": {
         "title": "My Projects",

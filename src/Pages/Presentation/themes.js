@@ -162,28 +162,46 @@ export const themes = {
 /**
  * Aplica un theme como CSS variables a un elemento
  * @param {HTMLElement} element - Elemento donde aplicar las variables
- * @param {string} themeName - Nombre del theme a aplicar
+ * @param {string|object} themeOrName - Nombre del theme o objeto theme completo
  */
-export function applyTheme(element, themeName) {
-  const theme = themes[themeName] || themes["modern-light"];
+export function applyTheme(element, themeOrName) {
+  let theme;
+
+  if (typeof themeOrName === "string") {
+    theme = themes[themeOrName] || themes["modern-light"];
+  } else if (typeof themeOrName === "object" && themeOrName !== null) {
+    theme = themeOrName;
+  } else {
+    theme = themes["modern-light"];
+  }
 
   // Aplicar colores de la paleta
-  Object.entries(theme.palette).forEach(([key, value]) => {
-    element.style.setProperty(`--theme-${key}`, value);
-  });
+  if (theme.palette) {
+    Object.entries(theme.palette).forEach(([key, value]) => {
+      element.style.setProperty(`--theme-${key}`, value);
+    });
+  }
 
   // Aplicar tipografía
-  Object.entries(theme.typography).forEach(([key, value]) => {
-    element.style.setProperty(`--theme-${key}`, value);
-  });
+  if (theme.typography) {
+    Object.entries(theme.typography).forEach(([key, value]) => {
+      element.style.setProperty(`--theme-${key}`, value);
+    });
+  }
 
   // Aplicar background
-  element.style.setProperty(`--theme-background-type`, theme.background.type);
-  element.style.setProperty(`--theme-background-value`, theme.background.value);
+  if (theme.background) {
+    element.style.setProperty(`--theme-background-type`, theme.background.type);
+    element.style.setProperty(`--theme-background-value`, theme.background.value);
+  }
 
   // Aplicar otros estilos
-  element.style.setProperty(`--theme-border-radius`, theme.borderRadius);
-  element.style.setProperty(`--theme-shadow`, theme.shadowStyle);
+  if (theme.borderRadius) {
+    element.style.setProperty(`--theme-border-radius`, theme.borderRadius);
+  }
+  if (theme.shadowStyle) {
+    element.style.setProperty(`--theme-shadow`, theme.shadowStyle);
+  }
 }
 
 /**

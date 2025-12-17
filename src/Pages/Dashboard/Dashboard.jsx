@@ -16,6 +16,8 @@ import {
   X,
 } from "lucide-react";
 
+import { templates } from "../../templates/templates";
+
 export default function Dashboard() {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -23,6 +25,7 @@ export default function Dashboard() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [showAllIdeas, setShowAllIdeas] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -70,9 +73,18 @@ export default function Dashboard() {
 
       toast.success("Presentation generated successfully!", { id: toastId });
 
+      // Override theme if a template is selected
+      let presentationData = data.data;
+      if (selectedTemplate) {
+        presentationData = {
+          ...presentationData,
+          theme: selectedTemplate.theme,
+        };
+      }
+
       // Navigate to presentation viewer with the generated data
       navigate("/presentation", {
-        state: { presentation: data.data },
+        state: { presentation: presentationData },
       });
     } catch (error) {
       console.error("Generate error:", error);
@@ -242,7 +254,51 @@ export default function Dashboard() {
                          placeholder:text-gray-400 text-gray-800 font-medium leading-relaxed"
             />
 
-            <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+            <div className="mt-8">
+              <label className="block text-sm font-semibold text-gray-900 mb-3">
+                {t('dashboard.choose_template')}
+              </label>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <button
+                   onClick={() => setSelectedTemplate(null)}
+                   className={`relative rounded-xl border-2 p-3 text-left transition-all hover:border-[color:var(--color-primary)]
+                     ${!selectedTemplate ? 'border-[color:var(--color-primary)] bg-[color:var(--color-primary)]/5 ring-1 ring-[color:var(--color-primary)]' : 'border-gray-100 hover:bg-gray-50'}
+                   `}
+                >
+                  <div className="aspect-video rounded-lg bg-gray-100 border border-gray-200 mb-2 flex items-center justify-center">
+                    <Sparkles size={16} className="text-gray-400" />
+                  </div>
+                  <span className="text-xs font-semibold block text-gray-700 leading-tight">
+                    {t('dashboard.no_template')}
+                  </span>
+                </button>
+
+                {templates.map((template) => (
+                  <button
+                    key={template.id}
+                    onClick={() => setSelectedTemplate(template)}
+                    className={`relative rounded-xl border-2 p-3 text-left transition-all hover:border-[color:var(--color-primary)]
+                      ${selectedTemplate?.id === template.id ? 'border-[color:var(--color-primary)] bg-[color:var(--color-primary)]/5 ring-1 ring-[color:var(--color-primary)]' : 'border-gray-100 hover:bg-gray-50'}
+                    `}
+                  >
+                    <div 
+                      className="aspect-video rounded-lg bg-cover bg-center mb-2 border border-gray-100"
+                      style={{ 
+                         // Fallback background if preview is just a path
+                         backgroundColor: template.theme.palette.background,
+                         backgroundImage: template.theme.background.type === 'gradient' ? template.theme.background.value : 'none'
+                      }} 
+                    />
+                    <span className="text-xs font-semibold block text-gray-700 leading-tight">
+                      {t(`templates.${template.id}`)}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row justify-between items-center mt-8 gap-4 pt-6 border-t border-gray-100">
               <div className="flex items-center gap-2 text-sm text-gray-400">
                 <Sparkles size={14} />
                 <span>Powered by advanced AI</span>
