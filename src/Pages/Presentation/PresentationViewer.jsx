@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, X, Home, Save } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Home,
+  Save,
+  Maximize,
+  Minimize,
+} from "lucide-react";
 import { db } from "../../Services/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
@@ -12,9 +20,11 @@ export default function PresentationViewer() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const presentationData = location.state?.presentation;
+  const containerRef = useRef(null);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
+  const [isPresentationMode, setIsPresentationMode] = useState(false);
 
   if (!presentationData) {
     return (
@@ -49,10 +59,53 @@ export default function PresentationViewer() {
     }
   };
 
+  const enterPresentationMode = async () => {
+    try {
+      if (containerRef.current) {
+        await containerRef.current.requestFullscreen();
+        setIsPresentationMode(true);
+      }
+    } catch (error) {
+      console.error("Error entering fullscreen:", error);
+      toast.error("No se pudo entrar en modo presentación");
+    }
+  };
+
+  const exitPresentationMode = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      }
+      setIsPresentationMode(false);
+    } catch (error) {
+      console.error("Error exiting fullscreen:", error);
+    }
+  };
+
+  // Detectar cuando el usuario sale de pantalla completa con ESC
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setIsPresentationMode(false);
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
   const handleKeyPress = (e) => {
     if (e.key === "ArrowRight") nextSlide();
     if (e.key === "ArrowLeft") prevSlide();
-    if (e.key === "Escape") navigate("/dashboard");
+    if (e.key === "Escape") {
+      if (isPresentationMode) {
+        exitPresentationMode();
+      } else {
+        navigate("/dashboard");
+      }
+    }
   };
 
   const handleSavePresentation = async () => {
@@ -83,12 +136,17 @@ export default function PresentationViewer() {
 
   return (
     <div
+      ref={containerRef}
       className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col"
       onKeyDown={handleKeyPress}
       tabIndex={0}
     >
       {/* Header */}
-      <header className="bg-black/30 backdrop-blur-sm border-b border-white/10 px-6 py-4">
+      <header
+        className={`bg-black/30 backdrop-blur-sm border-b border-white/10 px-6 py-4 transition-opacity duration-300 ${
+          isPresentationMode ? "opacity-0 hover:opacity-100" : ""
+        }`}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-white">{title}</h1>
@@ -100,6 +158,28 @@ export default function PresentationViewer() {
             <span className="text-sm text-gray-400">
               {currentSlide + 1} / {totalSlides}
             </span>
+            <button
+              onClick={
+                isPresentationMode
+                  ? exitPresentationMode
+                  : enterPresentationMode
+              }
+              className="flex items-center gap-2 px-4 py-2 bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary-hover)] text-black rounded-lg transition font-semibold"
+              title={
+                isPresentationMode
+                  ? "Salir de modo presentación"
+                  : "Modo presentación"
+              }
+            >
+              {isPresentationMode ? (
+                <Minimize size={20} />
+              ) : (
+                <Maximize size={20} />
+              )}
+              <span className="hidden sm:inline">
+                {isPresentationMode ? "Salir" : "Presentar"}
+              </span>
+            </button>
             <button
               onClick={handleSavePresentation}
               disabled={isSaving}
@@ -146,7 +226,11 @@ export default function PresentationViewer() {
       </main>
 
       {/* Navigation Controls */}
-      <footer className="bg-black/30 backdrop-blur-sm border-t border-white/10 px-6 py-6">
+      <footer
+        className={`bg-black/30 backdrop-blur-sm border-t border-white/10 px-6 py-6 transition-opacity duration-300 ${
+          isPresentationMode ? "opacity-0 hover:opacity-100" : ""
+        }`}
+      >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <button
             onClick={() => navigate("/dashboard")}
